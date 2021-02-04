@@ -1,0 +1,17 @@
+<!-- <mat-card fxLayoutGap> -->
+
+    <p mat-dialog-title *ngIf = "data.title != ''">{{data.title}}</p>
+
+    <!-- <p display-2 *ngIf = "data.message != ''">{{data.message}}</p> -->
+
+    <div class="noticia">
+        <img class="izquierda" src="assets/img/check.png">
+        <aside><p display-2 *ngIf = "data.message != ''">{{data.message}}</p></aside>
+        <div class="reset"></div>
+    </div>
+
+    <div mat-dialog-actions align="end">
+        <button mat-button (click)="onDismiss()" cdkFocusInitial>No</button>
+        <button mat-raised-button color="primary" (click)="onConfirm()">Si</button>
+    </div>
+<!-- </mat-card> -->
