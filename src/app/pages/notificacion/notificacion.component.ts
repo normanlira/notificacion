@@ -11,6 +11,9 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogComponent } from 'src/app/Components/Shared/confirm-dialog/confirm-dialog.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+
+
 
 @Component({
   selector: 'app-notificacion',
@@ -37,7 +40,7 @@ export class NotificacionComponent implements AfterViewInit {
     bufferValue = 0;
 
   // tslint:disable-next-line: max-line-length
-  constructor(public ServicioDatos: TesoreriaService, public dialogo: MatDialog, private snackBar: MatSnackBar, private SpinnerService: NgxSpinnerService ) {
+  constructor(public ServicioDatos: TesoreriaService, public dialogo: MatDialog, private snackBar: MatSnackBar, private SpinnerService: NgxSpinnerService, private MatDatepicker: MatDatepickerModule ) {
     // this.ServicioDatos.proveedores
    }
 

@@ -26,6 +26,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoginComponent } from './pages/login/login.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatMomentDateModule} from '@angular/material-moment-adapter';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatCardModule,
     NgxSpinnerModule,
     MatDatepickerModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatMomentDateModule,
 
   ],
   providers: [],
