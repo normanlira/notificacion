@@ -24,6 +24,8 @@ import { ConfirmDialogComponent } from './Components/Shared/confirm-dialog/confi
 import {MatCardModule} from '@angular/material/card';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoginComponent } from './pages/login/login.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatBadgeModule} from '@angular/material/badge';
 
 
 @NgModule({
@@ -54,6 +56,8 @@ import { LoginComponent } from './pages/login/login.component';
     MatSnackBarModule,
     MatCardModule,
     NgxSpinnerModule,
+    MatDatepickerModule,
+    MatBadgeModule
 
   ],
   providers: [],
