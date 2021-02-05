@@ -23,6 +23,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { ConfirmDialogComponent } from './Components/Shared/confirm-dialog/confirm-dialog.component';
 import {MatCardModule} from '@angular/material/card';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoginComponent } from './pages/login/login.component';
+
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     NotificacionComponent,
     HeaderComponent,
     FooterComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
