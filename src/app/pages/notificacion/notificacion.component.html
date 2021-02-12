@@ -1,108 +1,112 @@
-<div class="body">
-  <mat-form-field style="padding-left:5%; width: 35%">
-    <!-- <input list="brow"> -->
-      <mat-select placeholder="Empresas" name="empresas1" (selectionChange)="Cargar_Proveedores($event)">
-          <mat-option *ngFor="let emp of ServicioDatos.empresas" [value]="emp.Inter" >
-            {{emp.Nombre}}
-          </mat-option>
-      </mat-select>
-  </mat-form-field>
 
-  <mat-form-field style="padding-left:5%; width: 50%" *ngIf="this.ServicioDatos.proveedores.length > 0">
-    <!-- <input list="brow"> -->
-      <mat-select placeholder="Proveedores" name="operacion" (selectionChange)="Cargar_Pagos($event,'PSASO')">
-          <mat-option *ngFor="let op of ServicioDatos.proveedores" [value]="op.VENDORID">
-            {{op.VENDNAME}} ({{op.VENDSTTS}})
-          </mat-option>
-      </mat-select>
-  </mat-form-field>
+  <div style="text-align: center; justify-content: center;"><h2><b>Notificación de Pagos a Terceros</b></h2></div>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Rango de fecha</mat-label>
-    <mat-date-range-input [rangePicker]="picker">
-      <input matStartDate placeholder="Start date">
-      <input matEndDate placeholder="End date">
-    </mat-date-range-input>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  </mat-form-field>
+  <div style="padding-left: 2%;padding-right: 2%;">
+    <div class="row">
+      <div class="col-3">
+          <mat-form-field style="width: 100%;">
+            <!-- <input list="brow"> -->
+              <mat-select placeholder="Empresas" name="empresas1" (selectionChange)="Cargar_Proveedores($event)">
+                  <mat-option *ngFor="let emp of ServicioDatos.empresas" [value]="emp.Inter" >
+                    {{emp.Nombre}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>       
+      </div>
+      <div class="col-5">
+          <mat-form-field style="width: 100%;" *ngIf="this.ServicioDatos.proveedores.length > 0">
+                <mat-select placeholder="Proveedores" name="operacion" (selectionChange)="Cargar_Proveedor($event.value)">
+                  <mat-option *ngFor="let op of ServicioDatos.proveedores" [value]="op.VENDORID">
+                    {{op.VENDNAME}} ({{op.VENDSTTS}})
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
+      <div class="col-3">
+          <mat-form-field style="width: 100%;" appearance="fill" *ngIf="this.ServicioDatos.proveedores.length > 0">
+            <mat-label>Rango de fecha</mat-label>
+            <mat-date-range-input [rangePicker]="picker" >
+                <input matStartDate placeholder="Desde" (dateInput)="addEventBegin('input', $event)">
+                <input matEndDate placeholder="Hasta" (dateInput)="addEventEnd('input', $event)">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+      </div>
+
+      <div class="col-1" style="width: 100%;">
+          <div *ngIf="this.ServicioDatos.proveedores.length > 0">
+            <button class="btn btn-primary btn-lg" (click)="Cargar_Pagos($event,'PSASO', fechai, fechaf)">Buscar</button>
+          </div>
+      </div>
+  </div>
 
     <br>
 
-    <div style="display: flex; justify-content: center;" class="container">
-      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" *ngIf="this.ServicioDatos.proveedores.length > 0">
+    <div style="display: flex; justify-content: center;">
+      <table mat-table [dataSource]="dataSource" matSort *ngIf="this.ServicioDatos.proveedores.length > 0">
 
-      <!-- Checkbox Column -->
-      <ng-container matColumnDef="select">
-        <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox (change)="$event ? masterToggle() : null"
-                        [checked]="selection.hasValue() && isAllSelected()"
-                        [indeterminate]="selection.hasValue() && !isAllSelected()"
-                        [aria-label]="checkboxLabel()">
-          </mat-checkbox>
-        </th>
-        <td mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()"
-                        (change)="$event ? selection.toggle(row) : null"
-                        [checked]="selection.isSelected(row)"
-                        [aria-label]="checkboxLabel(row)">
-          </mat-checkbox>
-        </td>
-      </ng-container>
-      
-        <!-- Position Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                          [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)"
+                          [aria-label]="checkboxLabel(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="pos">
           <th mat-header-cell *matHeaderCellDef> POS </th>
           <td mat-cell *matCellDef="let element"> {{element.pos}} </td>
         </ng-container>
-      
-        <!-- Name Column -->
+
         <ng-container matColumnDef="VCHRNMBR">
           <th mat-header-cell *matHeaderCellDef> NRO: FACTURA </th>
           <td mat-cell *matCellDef="let element"> {{element.VCHRNMBR}} </td>
         </ng-container>
-      
-        <!-- Weight Column -->
+
         <ng-container matColumnDef="VENDORID">
           <th mat-header-cell *matHeaderCellDef> RIF </th>
           <td mat-cell *matCellDef="let element"> {{element.VENDORID}} </td>
         </ng-container>
-      
-        <!-- Symbol Column -->
+
         <ng-container matColumnDef="DOCTYPE">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> TIPO </th>
           <td mat-cell *matCellDef="let element"> {{element.DOCTYPE}} </td>
         </ng-container>
 
-        <!-- Symbol Column -->
         <ng-container matColumnDef="DOCDATE">
           <th mat-header-cell *matHeaderCellDef> FECHA </th>
           <td mat-cell *matCellDef="let element"> {{element.DOCDATE}} </td>
         </ng-container>
-        
-        <!-- Symbol Column -->
+
         <ng-container matColumnDef="DOCNUMBR">
           <th mat-header-cell *matHeaderCellDef> NRO. FACTURA </th>
           <td mat-cell *matCellDef="let element"> {{element.DOCNUMBR}} </td>
         </ng-container>
-        
-        <!-- Symbol Column -->
+
         <ng-container matColumnDef="Monto_Factura">
           <th mat-header-cell *matHeaderCellDef> MONTO </th>
           <td mat-cell *matCellDef="let element"> {{element.Monto_Factura}} </td>
-        </ng-container>        
+        </ng-container>
 
-        <!-- Symbol Column -->
         <ng-container matColumnDef="TRXDSCRN">
           <th mat-header-cell *matHeaderCellDef> DESCRIPCION </th>
           <td mat-cell *matCellDef="let element"> {{element.TRXDSCRN}} </td>
-        </ng-container> 
-        
-        <!-- Symbol Column -->
+        </ng-container>
+
         <ng-container matColumnDef="CURNCYID">
           <th mat-header-cell *matHeaderCellDef> MONEDA </th>
           <td mat-cell *matCellDef="let element"> {{element.CURNCYID}} </td>
-        </ng-container> 
+        </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"
@@ -111,34 +115,25 @@
       </table>
     </div>
 
+      <mat-paginator [length]="0"
+        [pageSize]="5"
+        [pageSizeOptions]="[5, 10, 25, 100]" *ngIf="this.ServicioDatos.proveedores.length > 0">
+      </mat-paginator>
+
     <div style="padding-left:5%; padding-top: 1%;" class="button-row" *ngIf="this.selection.selected.length > 0">
-      <!-- <button mat-raised-button (click)="enviar()" color="primary" >Enviar</button> -->
-      <button mat-raised-button (click)="openDialog()" color="primary" >Enviar</button>
+      <button class="btn btn-primary btn-lg" (click)="openDialog()">Enviar</button>
     </div>
+    
     <br>
-    <!-- <section class="example-section" *ngIf="ServicioDatos.enviarData==1">
-      <mat-progress-bar
-          class="example-margin"
-          [color]="color"
-          [mode]="mode"
-          [value]=ServicioDatos.contador
-          [bufferValue]="bufferValue">
-      </mat-progress-bar>
-    </section> -->
 
     <div class="progress" *ngIf="ServicioDatos.enviarData==1" style="height: 25px;">
-      <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow = "ServicioDatos.contador"
-      aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width':ServicioDatos.contador_porcentaje}">
-        {{ServicioDatos.contador}} %
-      </div>
+        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow = "ServicioDatos.contador" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width':ServicioDatos.contador_porcentaje}">
+            {{ServicioDatos.contador}} %
+        </div>
     </div>
-
-    <!-- <button mat-raised-button color="primary" (click)="showSnackbarAction('Net is offline, Trying to reconnect ....','Done')">
-      Snackbar action
-    </button> -->
 
 </div>
 
-<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise">  
-  <p style="color: white">Cargando la información, espere un momento... </p>  
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise">
+  <p style="color: white">Cargando la información, espere un momento... </p>
 </ngx-spinner>

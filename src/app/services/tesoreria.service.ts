@@ -64,8 +64,8 @@ export class TesoreriaService {
   }
 
   // tslint:disable-next-line: typedef
-  getPagos( rif: string, empresa: string ) {
-    return this.http.get(this.ruta + 'PagosProveedores/PagosProveedores/' + rif + '/' + empresa);
+  getPagos( rif: string, empresa: string, fechai: string, fechaf: string ) {
+    return this.http.get(this.ruta + 'PagosProveedores/PagosProveedores/' + rif + '/' + empresa + '/' + fechai + '/' + fechaf);
     }
 
   // tslint:disable-next-line: typedef
@@ -144,5 +144,6 @@ showSnackbarAction(content, action) {
       this.enviarData = 0;
     });
 }
+
 // https://localhost:44355/api/PagosProveedores/EnviarCorreo
 }

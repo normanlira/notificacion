@@ -19,50 +19,50 @@
 <body>
 	
 	<div class="limiter">
-		<div class="container-login100" style="background: #9c9c9c82;">
+		<div class="container-login100" style="background: #3c556182;">
 			<div class="wrap-login100">
 				<div class="login100-form-title" style="background-image: url(/assets/css/images/bg-01.jpg);">
 					<span class="login100-form-title-1">
 						
 					</span>
 				</div>
-
 				<div class="login100-form validate-form">
-					<div class="wrap-input100 validate-input m-b-26" data-validate="El usuario es requerido">
+					<form [formGroup]="profileForm" (ngSubmit)="Login()">
+						<div class="wrap-input100 validate-input m-b-26" data-validate="El usuario es requerido">
 						<span class="label-input100">Usuario</span>
-						<input class="input100" type="text" name="username" placeholder="Ingresar Usuario">
+						<input class="input100" type="text" formControlName="firstName" id="firstName" name="firstName" required minlength="5" placeholder="Ingresar Usuario">
 						<span class="focus-input100"></span>
 					</div>
+
+				<!-- <form [formGroup]="profileForm" (ngSubmit)="Login()"> -->
+					<div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="alert alert-danger">
+				
+						<div *ngIf="firstName.errors.required">
+							Name is required.
+						</div>
+						<div *ngIf="firstName.errors.minlength">
+							Name must be at least 4 characters long.
+						</div>
+						<div *ngIf="firstName.errors.forbiddenName">
+							Name cannot be Bob.
+						</div>
+				
+					</div>					
 
 					<div class="wrap-input100 validate-input m-b-18" data-validate = "La contraseña es requerida">
 						<span class="label-input100">Contraseña</span>
-						<input class="input100" type="password" name="pass" placeholder="Ingresar Contraseña">
+						<input class="input100" type="password" formControlName="lastName" name="pass" required minlength="5" placeholder="Ingresar Contraseña">
 						<span class="focus-input100"></span>
 					</div>
 
-					<!-- <div class="flex-sb-m w-full p-b-30">
-						<div class="contact100-form-checkbox">
-							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-							<label class="label-checkbox100" for="ckb1">
-								Remember me
-							</label>
-						</div>
-
-						<div>
-							<a href="#" class="txt1">
-								Forgot Password?
-							</a>
-						</div>
-					</div> -->
-
-					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
-							Ingresar
-						</button>
+					<div style="padding-left:5%; padding-top: 1%;" class="button-row">
+						<button class="btn btn-primary btn-lg" type="submit" [disabled]="!profileForm.valid">Ingresar</button>
 					</div>
+			</form>
+				
 				</div>
-			</div>
 		</div>
+	</div>
 	</div>
 	
 	<script src="/assets/css/vendor/jquery/jquery-3.2.1.min.js"></script>

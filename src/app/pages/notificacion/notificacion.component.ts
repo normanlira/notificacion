@@ -4,16 +4,16 @@ import {SelectionModel} from '@angular/cdk/collections';
 import { TesoreriaService } from '../../services/tesoreria.service';
 import { Pagos } from '../../interfaces/pagos.interfaz';
 import { MatSort } from '@angular/material/sort';
+import {MatPaginator} from '@angular/material/paginator';
 
 import {ThemePalette} from '@angular/material/core';
 import {ProgressBarMode} from '@angular/material/progress-bar';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogComponent } from 'src/app/Components/Shared/confirm-dialog/confirm-dialog.component';
 import { NgxSpinnerService } from 'ngx-spinner';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-
-
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-notificacion',
@@ -22,12 +22,16 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 })
 
 export class NotificacionComponent implements AfterViewInit {
-    // tslint:disable-next-line: variable-name
-    pagos_pro: any[] = [];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  PagosPro: any[] = [];
     pagos1: Pagos;
     HabilitarProveedores = false;
+    fechai;
+    fechaf;
+    VENDORID;
+    paginacion = false;
 
-    // tslint:disable-next-line: max-line-length
     displayedColumns: string[] = ['select', 'VCHRNMBR', 'VENDORID', 'DOCTYPE', 'DOCDATE', 'DOCNUMBR', 'Monto_Factura', 'TRXDSCRN', 'CURNCYID'];
     dataSource = new MatTableDataSource<Pagos>();
     selection = new SelectionModel<Pagos>(true, []);
@@ -40,23 +44,22 @@ export class NotificacionComponent implements AfterViewInit {
     bufferValue = 0;
 
   // tslint:disable-next-line: max-line-length
-  constructor(public ServicioDatos: TesoreriaService, public dialogo: MatDialog, private snackBar: MatSnackBar, private SpinnerService: NgxSpinnerService, private MatDatepicker: MatDatepickerModule ) {
-    // this.ServicioDatos.proveedores
+  constructor(public ServicioDatos: TesoreriaService, public dialogo: MatDialog, private snackBar: MatSnackBar, private SpinnerService: NgxSpinnerService, ) {
    }
 
-  // tslint:disable-next-line: typedef
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
+    // tslint:disable-next-line: typedef
+    isAllSelected() {
+      const numSelected = this.selection.selected.length;
+      const numRows = this.dataSource.data.length;
+      return numSelected === numRows;
+    }
 
-  // tslint:disable-next-line: typedef
-  masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
-  }
+    // tslint:disable-next-line: typedef
+    masterToggle() {
+      this.isAllSelected() ?
+          this.selection.clear() :
+          this.dataSource.data.forEach(row => this.selection.select(row));
+    }
 
     checkboxLabel(row?: Pagos): string {
       if (!row) {
@@ -65,17 +68,27 @@ export class NotificacionComponent implements AfterViewInit {
       return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.POS + 1}`;
     }
 
+    // tslint:disable-next-line: typedef
+    Cargar_Proveedor(Id) {
+      this.VENDORID = Id;
+      // console.log(this.VENDORID);
+    }
+
   // tslint:disable-next-line: typedef
-  Cargar_Pagos(rif, empresa) {
+  Cargar_Pagos(rif, empresa, fechai: string, fechaf: string) {
     this.SpinnerService.show();
+    this.paginator._intl.itemsPerPageLabel = 'Item por pagina';
     // console.log(rif.value);
-    this.pagos_pro = [];
+    this.PagosPro = [];
     // this.selection = null;
 
-    this.ServicioDatos.getPagos(rif.value, empresa)
+    // this.VENDORID
+    this.ServicioDatos.getPagos(this.VENDORID, empresa, fechai, fechaf)
     .subscribe( (pagos1: any[]) => {
-        this.pagos_pro = pagos1;
+        this.paginacion = true;
+        this.PagosPro = pagos1;
         this.dataSource = new MatTableDataSource<Pagos>(pagos1);
+        this.dataSource.paginator = this.paginator;
         this.SpinnerService.hide();
     });
   }
@@ -92,7 +105,6 @@ export class NotificacionComponent implements AfterViewInit {
     });
   }
 
-  // tslint:disable-next-line: use-lifecycle-interface
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
   }
@@ -151,4 +163,18 @@ openDialog() {
       });
   }
 
+
+
+  // tslint:disable-next-line: typedef
+  addEventBegin(type: string, event: MatDatepickerInputEvent<Date>) {
+    console.log(moment.utc(event.value).format('MM-DD-YYYY'));
+    this.fechai = moment.utc(event.value).format('MM-DD-YYYY');
+  }
+
+  // tslint:disable-next-line: typedef
+  addEventEnd(type: string, event: MatDatepickerInputEvent<Date>) {
+    console.log(moment.utc(event.value).format('MM-DD-YYYY'));
+    this.fechaf = moment.utc(event.value).format('MM-DD-YYYY');
+
+  }
 }

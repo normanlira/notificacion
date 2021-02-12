@@ -27,6 +27,9 @@ import { LoginComponent } from './pages/login/login.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
+import {MatPaginatorModule} from '@angular/material/paginator';
+// import {MatPaginator} from '@angular/material/paginator';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -60,6 +63,9 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
     MatDatepickerModule,
     MatBadgeModule,
     MatMomentDateModule,
+    // MatPaginatorModule,
+    // MatPaginator,
+    ReactiveFormsModule,
 
   ],
   providers: [],
