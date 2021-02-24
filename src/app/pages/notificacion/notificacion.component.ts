@@ -12,8 +12,14 @@ import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/d
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogComponent } from 'src/app/Components/Shared/confirm-dialog/confirm-dialog.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+<<<<<<< HEAD
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 import * as moment from 'moment';
+=======
+import {MatDatepickerModule} from '@angular/material/datepicker';
+
+// prueba
+>>>>>>> 4208b84e805001eb624a63f1ada406f89a85e8be
 
 @Component({
   selector: 'app-notificacion',
