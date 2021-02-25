@@ -63,7 +63,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatDatepickerModule,
     MatBadgeModule,
     MatMomentDateModule,
-    // MatPaginatorModule,
+    MatPaginatorModule,
     // MatPaginator,
     ReactiveFormsModule,
 

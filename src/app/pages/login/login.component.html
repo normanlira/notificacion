@@ -26,43 +26,40 @@
 						
 					</span>
 				</div>
-				<div class="login100-form validate-form">
-					<form [formGroup]="profileForm" (ngSubmit)="Login()">
+
+				<div class="login100-form">
+					<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" style="width: 100%; height: 100%;">
 						<div class="wrap-input100 validate-input m-b-26" data-validate="El usuario es requerido">
-						<span class="label-input100">Usuario</span>
-						<input class="input100" type="text" formControlName="firstName" id="firstName" name="firstName" required minlength="5" placeholder="Ingresar Usuario">
-						<span class="focus-input100"></span>
-					</div>
-
-				<!-- <form [formGroup]="profileForm" (ngSubmit)="Login()"> -->
-					<div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="alert alert-danger">
-				
-						<div *ngIf="firstName.errors.required">
-							Name is required.
+							<span class="label-input100">Usuario</span>
+							<!-- <input class="input100" type="text" formControlName="email"  [ngClass]="{ 'is-invalid': submitted && f.email.errors }" placeholder="Ingresar Usuario"> -->
+							<input class="input100" type="text" formControlName="user"  [ngClass]="{ 'is-invalid': submitted }" placeholder="Ingresar Usuario">
+							<span class="focus-input100"></span>
+							<div *ngIf="submitted && f.user.errors" class="invalid-feedback">
+								<div *ngIf="f.user.errors.required">Se requiere el nombre de usuario</div>
+								<!-- <div *ngIf="f.email.errors.email">El correo electrónico debe ser una dirección de correo electrónico válida</div> -->
+							</div>
 						</div>
-						<div *ngIf="firstName.errors.minlength">
-							Name must be at least 4 characters long.
-						</div>
-						<div *ngIf="firstName.errors.forbiddenName">
-							Name cannot be Bob.
-						</div>
-				
-					</div>					
 
-					<div class="wrap-input100 validate-input m-b-18" data-validate = "La contraseña es requerida">
-						<span class="label-input100">Contraseña</span>
-						<input class="input100" type="password" formControlName="lastName" name="pass" required minlength="5" placeholder="Ingresar Contraseña">
-						<span class="focus-input100"></span>
-					</div>
-
-					<div style="padding-left:5%; padding-top: 1%;" class="button-row">
-						<button class="btn btn-primary btn-lg" type="submit" [disabled]="!profileForm.valid">Ingresar</button>
-					</div>
-			</form>
-				
+						<div class="wrap-input100 validate-input m-b-18" data-validate = "La contraseña es requerida">
+							<span class="label-input100">Contraseña</span>
+							<!-- <input class="input100" type="password"  formControlName="password"  [ngClass]="{ 'is-invalid': submitted && f.password.errors }" placeholder="Ingresar Contraseña"> -->
+							<input class="input100" type="password"  formControlName="password"  [ngClass]="{ 'is-invalid': submitted }" placeholder="Ingresar Contraseña">
+							<span class="focus-input100"></span>
+							<div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+								<div *ngIf="f.password.errors.required">Se requiere una contraseña</div>
+								<!-- <div *ngIf="f.password.errors.minlength">La contraseña debe tener al menos 6 caracteres</div> -->
+							</div>							
+						</div>
+	
+						<div style="padding-left:5%; padding-top: 1%;" class="button-row">
+							<button class="btn btn-primary btn-lg mr-2" type="submit">Ingresar</button>
+							<button class="btn btn-secondary btn-lg" type="reset" (click)="onReset()">Cancel</button>
+							<!-- <button class="btn btn-primary btn-lg" type="submit" [disabled]="!profileForm.valid">Ingresar</button> -->
+						</div>
+					</form>
 				</div>
+			</div>
 		</div>
-	</div>
 	</div>
 	
 	<script src="/assets/css/vendor/jquery/jquery-3.2.1.min.js"></script>

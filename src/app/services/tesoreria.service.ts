@@ -20,7 +20,8 @@ export class TesoreriaService {
     this.CargarEmpresas();
   }
 
-  private ruta = 'https://localhost:44355/api/';
+  // private ruta = 'https://localhost:44355/api/';
+  private ruta = 'http://sofcapp11.advt.intra/restapi_notificaciones/api/';
 
   proveedores: Proveedores[] = [];
   empresas: Empresas[] = [];
@@ -29,6 +30,8 @@ export class TesoreriaService {
   enviado = true;
   contador = 0;
   enviarData = 0;
+  UsuarioValido = false;
+
   // tslint:disable-next-line: typedef
   public cargarProveedores(empresa) {
     // tslint:disable-next-line: no-shadowed-variable
@@ -144,6 +147,24 @@ showSnackbarAction(content, action) {
       this.enviarData = 0;
     });
 }
+
+  // tslint:disable-next-line: typedef
+  public ValidarUsuario(usuario: string, pwd: string) {
+    return new Promise<void>( ( resolve, reject ) => {
+      this.http.get(this.ruta + 'LdapAuthentication/Validar/' + 'sofcads02/advt/' + usuario + '/' + pwd)
+      .subscribe((resp: any) => {
+          this.UsuarioValido = resp;
+          console.log('Estado Usuario: ' + this.UsuarioValido);
+          resolve();
+        }
+      );
+    });
+  }
+
+  // tslint:disable-next-line: typedef
+  ValidarUsuario1( usuario: string, pwd: string ) {
+    return this.http.get(this.ruta + 'LdapAuthentication/Validar/' + 'sofcads02/advt/' + usuario + '/' + pwd);
+    }
 
 // https://localhost:44355/api/PagosProveedores/EnviarCorreo
 }
