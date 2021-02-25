@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   UsuarioValido = false;
 
+  // tslint:disable-next-line: max-line-length
   constructor(private formBuilder: FormBuilder, public ServicioDatos: TesoreriaService, private snackBar: MatSnackBar, private router: Router) { }
 
   ngOnInit(): void {
